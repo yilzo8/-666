@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>神秘生日信件 🔒</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Canvas Confetti for Celebration Effect -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #ff6b81;
+      --primary-hover: #ff4757;
+      --bg-gradient: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --text-color: #2f3542;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 背景動態浮動圓圈 */
+    .bg-bubbles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-bubbles li {
+      position: absolute;
+      list-style: none;
+      display: block;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.15);
+      bottom: -160px;
+      animation: square 25s infinite linear;
+      border-radius: 50%;
+    }
+
+    .bg-bubbles li:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; }
+    .bg-bubbles li:nth-child(2) { left: 20%; width: 30px; height: 30px; animation-delay: 2s; animation-duration: 12s; }
+    .bg-bubbles li:nth-child(3) { left: 25%; animation-delay: 4s; }
+    .bg-bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-duration: 18s; }
+    .bg-bubbles li:nth-child(5) { left: 70%; width: 50px; height: 50px; }
+    .bg-bubbles li:nth-child(6) { left: 80%; width: 120px; height: 120px; animation-delay: 3s; }
+
+    @keyframes square {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 20%; }
+      100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+    }
+
+    /* 主要容器 */
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 480px;
+      perspective: 1000px;
+    }
+
+    /* 解密卡片區域 */
+    .lock-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      color: #fff;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .lock-icon-wrapper {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+      box-shadow: inset 0 0 15px rgba(255,255,255,0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+
+    .lock-card h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .lock-card p {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 45px 14px 20px;
+      border-radius: 50px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+      text-align: center;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0;
+    }
+
+    .input-group input:focus {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: #fff;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    .toggle-pwd {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      font-size: 18px;
+    }
+
+    .btn-unlock {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 50px;
+      background: var(--primary);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 107, 129, 0.4);
+      transition: all 0.3s;
+    }
+
+    .btn-unlock:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(255, 107, 129, 0.6);
+    }
+
+    .hint-btn {
+      margin-top: 15px;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .hint-box {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      font-size: 13px;
+      display: none;
+    }
+
+    /* 錯誤震動效果 */
+    .shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+
+    /* 信件卡片主體 (隱藏) */
+    .card-content {
+      display: none;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px;
+      color: var(--text-color);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      position: relative;
+      animation: openCard 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes openCard {
+      0% { opacity: 0; transform: scale(0.5) rotateY(-30deg); }
+      100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .card-header h1 {
+      font-family: 'Dancing Script', cursive, 'Noto Sans TC';
+      font-size: 36px;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .photo-frame {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .letter-body {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #4a4a4a;
+      white-space: pre-line;
+      margin-bottom: 25px;
+      max-height: 250px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .music-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px;
+      background: #f1f2f6;
+      border: 1px solid #dfe4ea;
+      border-radius: 50px;
+      color: #57606f;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .music-btn.playing {
+      background: #ffeaa7;
+      color: #d63031;
+      border-color: #fdcb6e;
+    }
+
+    /* 自訂面板設定 (管理者專用/方便編輯) */
+    .admin-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 100;
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(5px);
+      border: none;
+      padding: 8px 12px;
+      border-radius: 20px;
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .admin-panel {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 101;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .admin-panel h3 { margin-bottom: 15px; color: #333; }
+    .admin-panel label { display: block; font-size: 12px; margin-top: 10px; color: #666; }
+    .admin-panel input, .admin-panel textarea {
+      width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;
+    }
+    .admin-panel button {
+      margin-top: 15px; width: 100%; padding: 10px; background: #2ed573; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
+    }
+    .overlay {
+      display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:100;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 背景動態氣泡 -->
+  <ul class="bg-bubbles">
+    <li></li><li></li><li></li><li></li><li></li><li></li>
+  </ul>
+
+  <button class="admin-toggle" onclick="toggleAdmin()"><i class="fa-solid fa-gear"></i> 設定卡片內容</button>
+
+  <div class="container">
+    <!-- 解密輸入區域 -->
+    <div class="lock-card" id="lockCard">
+      <div class="lock-icon-wrapper">
+        <i class="fa-solid fa-lock" id="lockIcon"></i>
+      </div>
+      <h2 id="displayTitle">神秘生日信件 🔒</h2>
+      <p id="displaySub">這是一封加密信件，請輸入密碼解密</p>
+      
+      <div class="input-group">
+        <input type="password" id="passwordInput" placeholder="請輸入解密密碼..." onkeydown="if(event.key==='Enter') unlock()">
+        <i class="fa-solid fa-eye toggle-pwd" id="togglePwd" onclick="togglePasswordVisibility()"></i>
+      </div>
+
+      <button class="btn-unlock" onclick="unlock()">開啟信件 <i class="fa-solid fa-key"></i></button>
+      
+      <div>
+        <button class="hint-btn" onclick="toggleHint()">需要密碼提示嗎？</button>
+        <div class="hint-box" id="hintBox">提示：我們認識的年份或對方的生日數字</div>
+      </div>
+    </div>
+
+    <!-- 解密後的卡片內容 -->
+    <div class="card-content" id="cardContent">
+      <div class="card-header">
+        <h1 id="cardHeader">Happy Birthday! 🎉</h1>
+        <p style="color: #888; font-size: 13px;" id="cardSub">親愛的 <span id="friendName">朋友</span>，生日快樂！</p>
+      </div>
+
+      <div class="photo-frame">
+        <img id="cardPhoto" src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80" alt="Birthday Celebration">
+      </div>
+
+      <div class="letter-body" id="cardText">
+        祝你新的一歲所有的願望都能實現！
+        感謝一直以來的陪伴與支持。
+        希望這份小小的加密驚喜有帶給你歡樂！
+
+        願你每一天都充滿陽光與笑聲 🎂✨
+      </div>
+
+      <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        <i class="fa-solid fa-music"></i> <span id="musicText">播放生日快樂歌 🎵</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 後台設定視窗 (方便製作卡片者線上修改與測試) -->
+  <div class="overlay" id="overlay" onclick="toggleAdmin()"></div>
+  <div class="admin-panel" id="adminPanel">
+    <h3>⚙️ 自訂你的生日卡片</h3>
+    <label>壽星稱呼：</label>
+    <input type="text" id="cfgName" value="朋友">
+
+    <label>解密密碼：</label>
+    <input type="text" id="cfgPassword" value="0823">
+
+    <label>密碼提示：</label>
+    <input type="text" id="cfgHint" value="提示：對方的生日 (例: 0823)">
+
+    <label>相片連結 (URL)：</label>
+    <input type="text" id="cfgPhoto" value="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80">
+
+    <label>祝福內文：</label>
+    <textarea id="cfgText" rows="5">祝你新的一歲所有的願望都能實現！
+感謝一直以來的陪伴與支持。
+希望這份小小的加密驚喜有帶給你歡樂！
+
+願你每一天都充滿陽光與笑聲 🎂✨</textarea>
+
+    <button onclick="saveSettings()">儲存設定並套用</button>
+  </div>
+
+  <script>
+    // 預設資料
+    let config = {
+      password: "0823",
+      hint: "提示：對方的生日 (例: 0823)",
+      name: "朋友",
+      photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80",
+      text: `祝你新的一歲所有的願望都能實現！\n感謝一直以來的陪伴與支持。\n希望這份小小的加密驚喜有帶給你歡樂！\n\n願你每一天都充滿陽光與笑聲 🎂✨`
+    };
+
+    // 初始化頁面
+    window.onload = function() {
+      // 讀取網址參數 (可以用網址發送不同設定: ?p=0823&n=Alex)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('p')) config.password = urlParams.get('p');
+      if (urlParams.has('h')) config.hint = urlParams.get('h');
+      if (urlParams.has('n')) config.name = urlParams.get('n');
+
+      updateUI();
+    };
+
+    function updateUI() {
+      document.getElementById('hintBox').innerText = config.hint;
+      document.getElementById('friendName').innerText = config.name;
+      document.getElementById('cardPhoto').src = config.photo;
+      document.getElementById('cardText').innerText = config.text;
+
+      // 填入 Admin 表單
+      document.getElementById('cfgPassword').value = config.password;
+      document.getElementById('cfgHint').value = config.hint;
+      document.getElementById('cfgName').value = config.name;
+      document.getElementById('cfgPhoto').value = config.photo;
+      document.getElementById('cfgText').value = config.text;
+    }
+
+    // 解密邏輯
+    function unlock() {
+      const input = document.getElementById('passwordInput').value.trim();
+      const lockCard = document.getElementById('lockCard');
+
+      if (input === config.password) {
+        // 密碼正確
+        document.getElementById('lockIcon').className = "fa-solid fa-lock-open";
+        
+        // 彩帶禮砲效果
+        fireConfetti();
+
+        // 卡片切換動畫
+        setTimeout(() => {
+          lockCard.style.display = 'none';
+          document.getElementById('cardContent').style.display = 'block';
+        }, 500);
+
+      } else {
+        // 密碼錯誤
+        lockCard.classList.add('shake');
+        document.getElementById('passwordInput').style.borderColor = '#ff4757';
+        setTimeout(() => {
+          lockCard.classList.remove('shake');
+        }, 500);
+      }
+    }
+
+    // 切換顯示密碼
+    function togglePasswordVisibility() {
+      const pwdInput = document.getElementById('passwordInput');
+      const toggleIcon = document.getElementById('togglePwd');
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        toggleIcon.className = 'fa-solid fa-eye-slash toggle-pwd';
+      } else {
+        pwdInput.type = 'password';
+        toggleIcon.className = 'fa-solid fa-eye toggle-pwd';
+      }
+    }
+
+    // 提示切換
+    function toggleHint() {
+      const hintBox = document.getElementById('hintBox');
+      hintBox.style.display = hintBox.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // 彩帶特效
+    function fireConfetti() {
+      const count = 200;
+      const defaults = { origin: { y: 0.7 } };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, { spread: 26, startVelocity: 55 });
+      fire(0.2, { spread: 60 });
+      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+      fire(0.1, { spread: 120, startVelocity: 45 });
+    }
+
+    // Web Audio API 生日音樂播放器 (無需外部 MP3 音樂檔)
+    let audioCtx = null;
+    let isPlaying = false;
+    let timer = null;
+
+    const notes = [
+      { f: 261.63, d: 0.4 }, { f: 261.63, d: 0.4 }, { f: 293.66, d: 0.8 }, { f: 261.63, d: 0.8 }, { f: 349.23, d: 0.8 }, { f: 329.63, d: 1.2 },
+      { f: 261.63, d: 0.4 }, { f: 261.63, d: 0.4 }, { f: 293.66, d: 0.8 }, { f: 261.63, d: 0.8 }, { f: 392.00, d: 0.8 }, { f: 349.23, d: 1.2 },
+      { f: 261.63, d: 0.4 }, { f: 261.63, d: 0.4 }, { f: 523.25, d: 0.8 }, { f: 440.00, d: 0.8 }, { f: 349.23, d: 0.8 }, { f: 329.63, d: 0.8 }, { f: 293.66, d: 0.8 },
+      { f: 466.16, d: 0.4 }, { f: 466.16, d: 0.4 }, { f: 440.00, d: 0.8 }, { f: 349.23, d: 0.8 }, { f: 392.00, d: 0.8 }, { f: 349.23, d: 1.2 }
+    ];
+
+    function toggleMusic() {
+      const btn = document.getElementById('musicBtn');
+      const txt = document.getElementById('musicText');
+
+      if (isPlaying) {
+        isPlaying = false;
+        btn.classList.remove('playing');
+        txt.innerText = '播放生日快樂歌 🎵';
+        if (timer) clearTimeout(timer);
+      } else {
+        isPlaying = true;
+        btn.classList.add('playing');
+        txt.innerText = '暫停音樂 ⏸️';
+        playBirthdaySong(0);
+      }
+    }
+
+    function playNote(freq, duration) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    function playBirthdaySong(index) {
+      if (!isPlaying) return;
+      if (index >= notes.length) index = 0; // 循環播放
+
+      const note = notes[index];
+      playNote(note.f, note.d);
+
+      timer = setTimeout(() => {
+        playBirthdaySong(index + 1);
+      }, note.d * 600);
+    }
+
+    // 後台設定視窗功能
+    function toggleAdmin() {
+      const panel = document.getElementById('adminPanel');
+      const overlay = document.getElementById('overlay');
+      const display = panel.style.display === 'block' ? 'none' : 'block';
+      panel.style.display = display;
+      overlay.style.display = display;
+    }
+
+    function saveSettings() {
+      config.password = document.getElementById('cfgPassword').value;
+      config.hint = document.getElementById('cfgHint').value;
+      config.name = document.getElementById('cfgName').value;
+      config.photo = document.getElementById('cfgPhoto').value;
+      config.text = document.getElementById('cfgText').value;
+
+      updateUI();
+      toggleAdmin();
+      alert('設定已更新！可以嘗試在畫面輸入密碼測試囉！');
+    }
+  </script>
+</body>
+</html>
