@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>神秘生日信件 🔒</title>
+  <title>最高機密：僅限唐偲萍閱覽 🔒</title>
   <!-- Google Fonts & FontAwesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,7 +120,7 @@
     }
 
     .lock-card h2 {
-      font-size: 24px;
+      font-size: 22px;
       margin-bottom: 10px;
       font-weight: 700;
       letter-spacing: 1px;
@@ -223,10 +223,10 @@
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    /* 信件卡片主體 (隱藏) */
+    /* 信件卡片主體 (背景已調整為淺粉色 #F5DADF) */
     .card-content {
       display: none;
-      background: #ffffff;
+      background: #F5DADF;
       border-radius: 20px;
       padding: 30px;
       color: var(--text-color);
@@ -248,18 +248,19 @@
     .card-header h1 {
       font-family: 'Dancing Script', cursive, 'Noto Sans TC';
       font-size: 36px;
-      color: var(--primary);
+      color: #d63031;
       margin-bottom: 5px;
     }
 
     .photo-frame {
       width: 100%;
-      height: 200px;
+      height: 240px;
       border-radius: 12px;
       overflow: hidden;
       margin-bottom: 20px;
       box-shadow: 0 8px 15px rgba(0,0,0,0.1);
       position: relative;
+      background: #fff;
     }
 
     .photo-frame img {
@@ -274,9 +275,12 @@
       color: #4a4a4a;
       white-space: pre-line;
       margin-bottom: 25px;
-      max-height: 250px;
+      max-height: 280px;
       overflow-y: auto;
       padding-right: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 15px;
+      border-radius: 12px;
     }
 
     .music-btn {
@@ -286,13 +290,14 @@
       gap: 10px;
       width: 100%;
       padding: 12px;
-      background: #f1f2f6;
-      border: 1px solid #dfe4ea;
+      background: #ffffff;
+      border: 1px solid #ffb8c6;
       border-radius: 50px;
-      color: #57606f;
+      color: #d63031;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     .music-btn.playing {
@@ -301,7 +306,7 @@
       border-color: #fdcb6e;
     }
 
-    /* 自訂面板設定 (管理者專用/方便編輯) */
+    /* 自訂面板設定 (管理者專用) */
     .admin-toggle {
       position: fixed;
       top: 15px;
@@ -360,8 +365,8 @@
       <div class="lock-icon-wrapper">
         <i class="fa-solid fa-lock" id="lockIcon"></i>
       </div>
-      <h2 id="displayTitle">神秘生日信件 🔒</h2>
-      <p id="displaySub">這是一封加密信件，請輸入密碼解密</p>
+      <h2 id="displayTitle">最高機密：僅限唐偲萍閱覽 🔒</h2>
+      <p id="displaySub">這是一封加密卡片，請輸入密碼解密</p>
       
       <div class="input-group">
         <input type="password" id="passwordInput" placeholder="請輸入解密密碼..." onkeydown="if(event.key==='Enter') unlock()">
@@ -372,7 +377,7 @@
       
       <div>
         <button class="hint-btn" onclick="toggleHint()">需要密碼提示嗎？</button>
-        <div class="hint-box" id="hintBox">提示：我們認識的年份或對方的生日數字</div>
+        <div class="hint-box" id="hintBox">提示：對方的生日 (1027)</div>
       </div>
     </div>
 
@@ -380,20 +385,20 @@
     <div class="card-content" id="cardContent">
       <div class="card-header">
         <h1 id="cardHeader">Happy Birthday! 🎉</h1>
-        <p style="color: #888; font-size: 13px;" id="cardSub">親愛的 <span id="friendName">朋友</span>，生日快樂！</p>
+        <p style="color: #666; font-size: 15px; font-weight: bold;" id="cardSub">親愛的寶貝，生日快樂！</p>
       </div>
 
       <div class="photo-frame">
-        <img id="cardPhoto" src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80" alt="Birthday Celebration">
+        <img id="cardPhoto" src="合照.jpg" alt="Birthday Photo">
       </div>
 
-      <div class="letter-body" id="cardText">
-        祝你新的一歲所有的願望都能實現！
-        感謝一直以來的陪伴與支持。
-        希望這份小小的加密驚喜有帶給你歡樂！
+      <div class="letter-body" id="cardText">首先 祝妳22大壽生日快樂！22大順
 
-        願你每一天都充滿陽光與笑聲 🎂✨
-      </div>
+越長越大我發現都有各自的人生軌跡在走 而友情最珍貴的地方在於 在各自忙碌的生活中 卻還是可以在見面的時候毫無隔閡地分享生活。
+
+依舊很開心的最單純的階段跟妳認識 也很幸運我們的故事仍然在續寫；這次的卡片可能看起來有點文縐縐的 但就是這一年經過了很多事我好像對人生有了新的解釋 開始感慨 不再只是片言祝福。
+
+22歲了真的好快好快，說了好多次好快還是會感慨時間怎麼過得這麼快，祝福妳新的一歲比去年更快樂更幸福更有錢！</div>
 
       <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
         <i class="fa-solid fa-music"></i> <span id="musicText">播放生日快樂歌 🎵</span>
@@ -401,28 +406,30 @@
     </div>
   </div>
 
-  <!-- 後台設定視窗 (方便製作卡片者線上修改與測試) -->
+  <!-- 後台設定視窗 -->
   <div class="overlay" id="overlay" onclick="toggleAdmin()"></div>
   <div class="admin-panel" id="adminPanel">
     <h3>⚙️ 自訂你的生日卡片</h3>
     <label>壽星稱呼：</label>
-    <input type="text" id="cfgName" value="朋友">
+    <input type="text" id="cfgName" value="寶貝">
 
     <label>解密密碼：</label>
-    <input type="text" id="cfgPassword" value="0823">
+    <input type="text" id="cfgPassword" value="1027">
 
     <label>密碼提示：</label>
-    <input type="text" id="cfgHint" value="提示：對方的生日 (例: 0823)">
+    <input type="text" id="cfgHint" value="提示：對方的生日 (1027)">
 
     <label>相片連結 (URL)：</label>
-    <input type="text" id="cfgPhoto" value="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80">
+    <input type="text" id="cfgPhoto" value="合照.jpg">
 
     <label>祝福內文：</label>
-    <textarea id="cfgText" rows="5">祝你新的一歲所有的願望都能實現！
-感謝一直以來的陪伴與支持。
-希望這份小小的加密驚喜有帶給你歡樂！
+    <textarea id="cfgText" rows="5">首先 祝妳22大壽生日快樂！22大順
 
-願你每一天都充滿陽光與笑聲 🎂✨</textarea>
+越長越大我發現都有各自的人生軌跡在走 而友情最珍貴的地方在於 在各自忙碌的生活中 卻還是可以在見面的時候毫無隔閡地分享生活。
+
+依舊很開心的最單純的階段跟妳認識 也很幸運我們的故事仍然在續寫；這次的卡片可能看起來有點文縐縐的 但就是這一年經過了很多事我好像對人生有了新的解釋 開始感慨 不再只是片言祝福。
+
+22歲了真的好快好快，說了好多次好快還是會感慨時間怎麼過得這麼快，祝福妳新的一歲比去年更快樂更幸福更有錢！</textarea>
 
     <button onclick="saveSettings()">儲存設定並套用</button>
   </div>
@@ -430,16 +437,15 @@
   <script>
     // 預設資料
     let config = {
-      password: "0823",
-      hint: "提示：對方的生日 (例: 0823)",
-      name: "朋友",
-      photo: "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80",
-      text: `祝你新的一歲所有的願望都能實現！\n感謝一直以來的陪伴與支持。\n希望這份小小的加密驚喜有帶給你歡樂！\n\n願你每一天都充滿陽光與笑聲 🎂✨`
+      password: "1027",
+      hint: "提示：對方的生日 (1027)",
+      name: "寶貝",
+      photo: "合照.jpg",
+      text: `首先 祝妳22大壽生日快樂！22大順\n\n越長越大我發現都有各自的人生軌跡在走 而友情最珍貴的地方在於 在各自忙碌的生活中 卻還是可以在見面的時候毫無隔閡地分享生活。\n\n依舊很開心的最單純的階段跟妳認識 也很幸運我們的故事仍然在續寫；這次的卡片可能看起來有點文縐縐的 但就是這一年經過了很多事我好像對人生有了新的解釋 開始感慨 不再只是片言祝福。\n\n22歲了真的好快好快，說了好多次好快還是會感慨時間怎麼過得這麼快，祝福妳新的一歲比去年更快樂更幸福更有錢！`
     };
 
     // 初始化頁面
     window.onload = function() {
-      // 讀取網址參數 (可以用網址發送不同設定: ?p=0823&n=Alex)
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('p')) config.password = urlParams.get('p');
       if (urlParams.has('h')) config.hint = urlParams.get('h');
@@ -450,11 +456,9 @@
 
     function updateUI() {
       document.getElementById('hintBox').innerText = config.hint;
-      document.getElementById('friendName').innerText = config.name;
       document.getElementById('cardPhoto').src = config.photo;
       document.getElementById('cardText').innerText = config.text;
 
-      // 填入 Admin 表單
       document.getElementById('cfgPassword').value = config.password;
       document.getElementById('cfgHint').value = config.hint;
       document.getElementById('cfgName').value = config.name;
@@ -468,20 +472,16 @@
       const lockCard = document.getElementById('lockCard');
 
       if (input === config.password) {
-        // 密碼正確
         document.getElementById('lockIcon').className = "fa-solid fa-lock-open";
         
-        // 彩帶禮砲效果
         fireConfetti();
 
-        // 卡片切換動畫
         setTimeout(() => {
           lockCard.style.display = 'none';
           document.getElementById('cardContent').style.display = 'block';
         }, 500);
 
       } else {
-        // 密碼錯誤
         lockCard.classList.add('shake');
         document.getElementById('passwordInput').style.borderColor = '#ff4757';
         setTimeout(() => {
@@ -490,7 +490,6 @@
       }
     }
 
-    // 切換顯示密碼
     function togglePasswordVisibility() {
       const pwdInput = document.getElementById('passwordInput');
       const toggleIcon = document.getElementById('togglePwd');
@@ -503,13 +502,11 @@
       }
     }
 
-    // 提示切換
     function toggleHint() {
       const hintBox = document.getElementById('hintBox');
       hintBox.style.display = hintBox.style.display === 'block' ? 'none' : 'block';
     }
 
-    // 彩帶特效
     function fireConfetti() {
       const count = 200;
       const defaults = { origin: { y: 0.7 } };
@@ -527,7 +524,7 @@
       fire(0.1, { spread: 120, startVelocity: 45 });
     }
 
-    // Web Audio API 生日音樂播放器 (無需外部 MP3 音樂檔)
+    // Web Audio API 生日音樂播放器
     let audioCtx = null;
     let isPlaying = false;
     let timer = null;
@@ -578,7 +575,7 @@
 
     function playBirthdaySong(index) {
       if (!isPlaying) return;
-      if (index >= notes.length) index = 0; // 循環播放
+      if (index >= notes.length) index = 0;
 
       const note = notes[index];
       playNote(note.f, note.d);
@@ -588,7 +585,6 @@
       }, note.d * 600);
     }
 
-    // 後台設定視窗功能
     function toggleAdmin() {
       const panel = document.getElementById('adminPanel');
       const overlay = document.getElementById('overlay');
@@ -606,7 +602,7 @@
 
       updateUI();
       toggleAdmin();
-      alert('設定已更新！可以嘗試在畫面輸入密碼測試囉！');
+      alert('設定已更新！');
     }
   </script>
 </body>
