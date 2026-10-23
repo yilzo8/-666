@@ -356,50 +356,6 @@
       color: #854d0e;
       border-color: #fde047;
     }
-
-    /* 管理者設定面板 */
-    .admin-toggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      z-index: 100;
-      background: rgba(255,255,255,0.6);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.8);
-      padding: 8px 12px;
-      border-radius: 20px;
-      color: #1e3a8a;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .admin-panel {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 101;
-      background: white;
-      padding: 25px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .admin-panel h3 { margin-bottom: 15px; color: #333; }
-    .admin-panel label { display: block; font-size: 12px; margin-top: 10px; color: #666; }
-    .admin-panel input, .admin-panel textarea {
-      width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px;
-    }
-    .admin-panel button {
-      margin-top: 15px; width: 100%; padding: 10px; background: #2ed573; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
-    }
-    .overlay {
-      display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:100;
-    }
   </style>
 </head>
 <body>
@@ -413,8 +369,6 @@
   <audio id="bgmAudio" loop preload="auto">
     <source id="bgmSource" src="bgm.mp3" type="audio/mpeg">
   </audio>
-
-  <button class="admin-toggle" onclick="toggleAdmin()"><i class="fa-solid fa-gear"></i> 設定卡片內容</button>
 
   <div class="container">
     <!-- 解密輸入區域 -->
@@ -473,77 +427,14 @@
     </div>
   </div>
 
-  <!-- 後台設定視窗 -->
-  <div class="overlay" id="overlay" onclick="toggleAdmin()"></div>
-  <div class="admin-panel" id="adminPanel">
-    <h3>⚙️ 自訂你的生日卡片</h3>
-    <label>壽星稱呼：</label>
-    <input type="text" id="cfgName" value="寶貝">
-
-    <label>解密密碼：</label>
-    <input type="text" id="cfgPassword" value="1027">
-
-    <label>密碼提示：</label>
-    <input type="text" id="cfgHint" value="嘻嘻沒有">
-
-    <label>相片連結 (URL)：</label>
-    <input type="text" id="cfgPhoto" value="合照.jpg">
-
-    <label>音樂連結或檔名 (例: bgm.mp3)：</label>
-    <input type="text" id="cfgMusic" value="bgm.mp3">
-
-    <label>祝福內文：</label>
-    <textarea id="cfgText" rows="5">首先 祝妳22大壽生日快樂！22大順
-
-越長越大我發現都有各自的人生軌跡在走 而友情最珍貴的地方在於 在各自忙碌的生活中 卻還是可以在見面的時候毫無隔閡地分享生活。
-
-依舊很開心的最單純的階段跟妳認識 也很幸運我們的故事仍然在續寫；這次的卡片可能看起來有點文縐縐的 但就是這一年經過了很多事我好像對人生有了新的解釋 開始感慨 不再只是片言祝福。
-
-22歲了真的好快好快，說了好多次好快還是會感慨時間怎麼過得這麼快，祝福妳新的一歲比去年更快樂更幸福更有錢！</textarea>
-
-    <button onclick="saveSettings()">儲存設定並套用</button>
-  </div>
-
   <script>
-    // 預設資料
-    let config = {
+    // 固定設定資料
+    const config = {
       password: "1027",
       hint: "嘻嘻沒有",
-      name: "寶貝",
       photo: "合照.jpg",
-      music: "bgm.mp3",
-      text: `首先 祝妳22大壽生日快樂！22大順\n\n越長越大我發現都有各自的人生軌跡在走 而友情最珍貴的地方在於 在各自忙碌的生活中 卻還是可以在見面的時候毫無隔閡地分享生活。\n\n依舊很開心的最單純的階段跟妳認識 也很幸運我們的故事仍然在續寫；這次的卡片可能看起來有點文縐縐的 但就是這一年經過了很多事我好像對人生有了新的解釋 開始感慨 不再只是片言祝福。\n\n22歲了真的好快好快，說了好多次好快還是會感慨時間怎麼過得這麼快，祝福妳新的一歲比去年更快樂更幸福更有錢！`
+      music: "bgm.mp3"
     };
-
-    // 初始化頁面
-    window.onload = function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('p')) config.password = urlParams.get('p');
-      if (urlParams.has('h')) config.hint = urlParams.get('h');
-      if (urlParams.has('n')) config.name = urlParams.get('n');
-
-      updateUI();
-    };
-
-    function updateUI() {
-      document.getElementById('hintBox').innerText = config.hint;
-      document.getElementById('cardPhoto').src = config.photo;
-      document.getElementById('cardText').innerText = config.text;
-
-      const audioSource = document.getElementById('bgmSource');
-      const audioPlayer = document.getElementById('bgmAudio');
-      if (audioSource.src !== config.music) {
-        audioSource.src = config.music;
-        audioPlayer.load();
-      }
-
-      document.getElementById('cfgPassword').value = config.password;
-      document.getElementById('cfgHint').value = config.hint;
-      document.getElementById('cfgName').value = config.name;
-      document.getElementById('cfgPhoto').value = config.photo;
-      document.getElementById('cfgMusic').value = config.music;
-      document.getElementById('cfgText').value = config.text;
-    }
 
     // 解密邏輯
     function unlock() {
@@ -619,27 +510,6 @@
         btn.classList.remove('playing');
         txt.innerText = '播放背景音樂 🎵';
       }
-    }
-
-    function toggleAdmin() {
-      const panel = document.getElementById('adminPanel');
-      const overlay = document.getElementById('overlay');
-      const display = panel.style.display === 'block' ? 'none' : 'block';
-      panel.style.display = display;
-      overlay.style.display = display;
-    }
-
-    function saveSettings() {
-      config.password = document.getElementById('cfgPassword').value;
-      config.hint = document.getElementById('cfgHint').value;
-      config.name = document.getElementById('cfgName').value;
-      config.photo = document.getElementById('cfgPhoto').value;
-      config.music = document.getElementById('cfgMusic').value;
-      config.text = document.getElementById('cfgText').value;
-
-      updateUI();
-      toggleAdmin();
-      alert('設定已更新！');
     }
   </script>
 </body>
