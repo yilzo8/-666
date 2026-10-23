@@ -7,7 +7,7 @@
   <!-- Google Fonts & FontAwesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Fredoka:wght@500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Canvas Confetti for Celebration Effect -->
@@ -18,10 +18,9 @@
       --primary: #ff6b81;
       --primary-hover: #ff4757;
       --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #b9e6fe 50%, #c4e2ea 100%);
-      --glass-bg: rgba(255, 255, 255, 0.55);
-      --glass-border: rgba(255, 255, 255, 0.8);
+      --glass-bg: rgba(255, 255, 255, 0.65);
+      --glass-border: rgba(255, 255, 255, 0.85);
       --text-color: #2c3e50;
-      --accent-blue: #3b82f6;
     }
 
     * {
@@ -42,7 +41,7 @@
       padding: 20px 0;
     }
 
-    /* 背景動態氣泡與貓爪 */
+    /* 背景動態氣泡 */
     .bg-bubbles {
       position: absolute;
       top: 0;
@@ -60,7 +59,7 @@
       display: block;
       width: 40px;
       height: 40px;
-      background-color: rgba(255, 255, 255, 0.35);
+      background-color: rgba(255, 255, 255, 0.4);
       bottom: -160px;
       animation: square 22s infinite linear;
       border-radius: 50%;
@@ -83,7 +82,7 @@
       position: relative;
       z-index: 10;
       width: 90%;
-      max-width: 450px;
+      max-width: 440px;
       perspective: 1000px;
     }
 
@@ -94,7 +93,7 @@
       -webkit-backdrop-filter: blur(20px);
       border: 2px solid var(--glass-border);
       border-radius: 32px;
-      padding: 35px 25px 30px;
+      padding: 40px 25px 30px;
       text-align: center;
       box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
       color: #2d3748;
@@ -102,50 +101,68 @@
       position: relative;
     }
 
-    /* SVG 貓咪裝飾定位 */
-    .cat-decor {
+    /* 可愛貓貓頭頂裝飾圖示 */
+    .cat-avatar-wrapper {
+      position: relative;
+      width: 95px;
+      height: 95px;
+      margin: 0 auto 15px;
+    }
+
+    .cat-avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.1));
+      animation: floatCat 3s ease-in-out infinite;
+    }
+
+    @keyframes floatCat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* 邊角可愛小裝飾 */
+    .corner-decor {
       position: absolute;
       pointer-events: none;
       z-index: 12;
     }
 
-    /* 頂部趴趴三花貓 */
-    .cat-top {
-      top: -38px;
-      right: 20px;
-      width: 110px;
+    .decor-cat-top-right {
+      top: -25px;
+      right: 15px;
+      width: 55px;
     }
 
-    /* 頂部偵探貓與大鎖 */
-    .cat-detective {
-      width: 90px;
-      margin: 0 auto 10px;
-      display: block;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    .decor-cat-left {
+      left: -20px;
+      bottom: 80px;
+      width: 60px;
     }
 
-    /* 左側攀爬灰虎斑貓 */
-    .cat-left {
-      left: -28px;
-      bottom: 90px;
-      width: 80px;
+    .decor-cat-right {
+      right: -20px;
+      bottom: -10px;
+      width: 65px;
     }
 
-    /* 右下抱鑰匙白貓 */
-    .cat-right {
-      right: -25px;
-      bottom: -15px;
-      width: 95px;
+    .decor-fish1 {
+      top: 35px;
+      left: 15px;
+      font-size: 24px;
+      transform: rotate(-20deg);
     }
 
-    /* 浮動小小裝飾元素 */
-    .decor-fish1 { top: 40px; left: 15px; width: 35px; transform: rotate(-15deg); }
-    .decor-fish2 { top: 90px; left: 25px; width: 32px; transform: rotate(20deg); }
-    .decor-yarn { bottom: 15px; left: 25px; width: 30px; }
-    .decor-paw { top: 50px; right: 25px; width: 22px; opacity: 0.6; }
+    .decor-fish2 {
+      top: 75px;
+      left: 20px;
+      font-size: 20px;
+      transform: rotate(15deg);
+    }
 
     .lock-card h2 {
-      font-size: 21px;
+      font-size: 20px;
       margin-bottom: 8px;
       font-weight: 700;
       color: #1e3a8a;
@@ -173,7 +190,7 @@
       padding: 14px 45px 14px 20px;
       border-radius: 50px;
       border: 2px solid #bfdbfe;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       color: #1e293b;
       font-size: 15px;
       outline: none;
@@ -244,11 +261,12 @@
     .hint-box {
       margin-top: 12px;
       padding: 10px;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.85);
       border: 1px dashed #93c5fd;
       border-radius: 12px;
-      font-size: 13px;
+      font-size: 13.5px;
       color: #1e40af;
+      font-weight: 500;
       display: none;
     }
 
@@ -264,7 +282,7 @@
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    /* 信件卡片主體 (背景為淺藍色 #C4E2EA) */
+    /* 信件卡片主體 (背景淺藍色 #C4E2EA) */
     .card-content {
       display: none;
       background: #C4E2EA;
@@ -410,64 +428,22 @@
   <button class="admin-toggle" onclick="toggleAdmin()"><i class="fa-solid fa-gear"></i> 設定卡片內容</button>
 
   <div class="container">
-    <!-- 解密輸入區域 (貓貓主題) -->
+    <!-- 解密輸入區域 -->
     <div class="lock-card" id="lockCard">
       
-      <!-- 頂部趴趴三花貓 SVG -->
-      <svg class="cat-decor cat-top" viewBox="0 0 120 60" fill="none">
-        <path d="M 20,50 Q 30,20 60,20 Q 90,20 100,50 Z" fill="#ffffff" stroke="#2d3748" stroke-width="3"/>
-        <!-- 斑紋 -->
-        <path d="M 30,25 Q 40,30 35,40" fill="#f97316"/>
-        <path d="M 80,25 Q 70,30 75,40" fill="#475569"/>
-        <!-- 貓耳 -->
-        <polygon points="25,25 15,5 35,18" fill="#ffffff" stroke="#2d3748" stroke-width="2.5"/>
-        <polygon points="95,25 105,5 85,18" fill="#ffffff" stroke="#2d3748" stroke-width="2.5"/>
-        <!-- 眼睛與表情 -->
-        <circle cx="45" cy="35" r="3" fill="#2d3748"/>
-        <circle cx="75" cy="35" r="3" fill="#2d3748"/>
-        <path d="M 57,38 Q 60,42 63,38" stroke="#2d3748" stroke-width="2" fill="none"/>
-        <!-- 手掌 -->
-        <ellipse cx="40" cy="52" rx="7" ry="5" fill="#ffffff" stroke="#2d3748" stroke-width="2"/>
-        <ellipse cx="80" cy="52" rx="7" ry="5" fill="#ffffff" stroke="#2d3748" stroke-width="2"/>
-      </svg>
+      <!-- 魚骨頭角落裝飾 -->
+      <div class="corner-decor decor-fish1">🐟</div>
+      <div class="corner-decor decor-fish2">🦴</div>
 
-      <!-- 魚骨頭 & 裝飾 -->
-      <svg class="cat-decor decor-fish1" viewBox="0 0 50 30" fill="none">
-        <path d="M 5,15 L 40,15 M 15,5 L 15,25 M 25,7 L 25,23 M 35,9 L 35,21 M 40,15 L 48,5 M 40,15 L 48,25 M 5,15 C 0,5 0,25 5,15" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-      <svg class="cat-decor decor-fish2" viewBox="0 0 50 30" fill="none">
-        <path d="M 5,15 L 40,15 M 15,5 L 15,25 M 25,7 L 25,23 M 35,9 L 35,21 M 40,15 L 48,5 M 40,15 L 48,25 M 5,15 C 0,5 0,25 5,15" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-      <svg class="cat-decor decor-yarn" viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="20" r="15" fill="#f43f5e" stroke="#2d3748" stroke-width="2"/>
-        <path d="M 8,15 C 15,25 25,10 32,25 M 12,28 C 20,15 28,30 30,10" stroke="#ffffff" stroke-width="2" fill="none"/>
-      </svg>
+      <!-- 可愛日系貓貓圖示 (高畫質精緻風格) -->
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616430.png" class="corner-decor decor-cat-top-right" alt="Cat Top">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616554.png" class="corner-decor decor-cat-left" alt="Cat Left">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="corner-decor decor-cat-right" alt="Cat Right">
 
-      <!-- 頂部橘貓與密碼鎖 SVG -->
-      <svg class="cat-detective" viewBox="0 0 100 100" fill="none">
-        <!-- 偵探帽子 -->
-        <path d="M 25,35 Q 50,15 75,35 Z" fill="#d97706" stroke="#2d3748" stroke-width="2.5"/>
-        <path d="M 20,35 L 80,35" stroke="#2d3748" stroke-width="3" stroke-linecap="round"/>
-        <!-- 貓頭 -->
-        <circle cx="50" cy="50" r="28" fill="#fb923c" stroke="#2d3748" stroke-width="2.5"/>
-        <!-- 貓耳 -->
-        <polygon points="25,32 15,12 35,25" fill="#fb923c" stroke="#2d3748" stroke-width="2.5"/>
-        <polygon points="75,32 85,12 65,25" fill="#fb923c" stroke="#2d3748" stroke-width="2.5"/>
-        <!-- 臉部細節 -->
-        <circle cx="38" cy="48" r="3.5" fill="#2d3748"/>
-        <circle cx="62" cy="48" r="3.5" fill="#2d3748"/>
-        <polygon points="50,53 46,50 54,50" fill="#f43f5e"/>
-        <path d="M 44,57 Q 50,62 56,57" stroke="#2d3748" stroke-width="2" fill="none"/>
-        <!-- 鬍鬚 -->
-        <line x1="20" y1="48" x2="32" y2="50" stroke="#2d3748" stroke-width="2"/>
-        <line x1="20" y1="55" x2="32" y2="54" stroke="#2d3748" stroke-width="2"/>
-        <line x1="80" y1="48" x2="68" y2="50" stroke="#2d3748" stroke-width="2"/>
-        <line x1="80" y1="55" x2="68" y2="54" stroke="#2d3748" stroke-width="2"/>
-        <!-- 抱著的鎖頭 -->
-        <rect x="38" y="65" width="24" height="20" rx="4" fill="#ffffff" stroke="#2d3748" stroke-width="2.5"/>
-        <path d="M 43,65 L 43,58 C 43,53 57,53 57,58 L 57,65" stroke="#2d3748" stroke-width="2.5" fill="none"/>
-        <circle cx="50" cy="73" r="2.5" fill="#2d3748"/>
-      </svg>
+      <!-- 中間主要大貓咪圖示 -->
+      <div class="cat-avatar-wrapper">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616540.png" class="cat-avatar" alt="Cute Detective Cat">
+      </div>
 
       <h2 id="displayTitle">最高機密：僅限唐偲萍閱覽 🔒</h2>
       <p class="sub-title" id="displaySub">🐾 這是一封加密卡片，請輸入密碼解密 🐾</p>
@@ -481,43 +457,8 @@
       
       <div>
         <button class="hint-btn" onclick="toggleHint()"><i class="fa-solid fa-paw"></i> 需要密碼提示嗎？</button>
-        <div class="hint-box" id="hintBox">提示：對方的生日 (1027)</div>
+        <div class="hint-box" id="hintBox">嘻嘻沒有</div>
       </div>
-
-      <!-- 左側攀爬灰貓 SVG -->
-      <svg class="cat-decor cat-left" viewBox="0 0 80 100" fill="none">
-        <path d="M 50,20 Q 70,50 50,80 C 30,90 20,60 30,30 Z" fill="#94a3b8" stroke="#2d3748" stroke-width="2.5"/>
-        <!-- 紋路 -->
-        <path d="M 40,30 L 50,32 M 38,45 L 50,47 M 40,60 L 50,62" stroke="#475569" stroke-width="2.5"/>
-        <!-- 尾巴 -->
-        <path d="M 25,75 C 5,80 10,100 2,95" stroke="#94a3b8" stroke-width="7" stroke-linecap="round"/>
-        <path d="M 25,75 C 5,80 10,100 2,95" stroke="#2d3748" stroke-width="2.5" fill="none"/>
-        <!-- 貓耳與頭 -->
-        <circle cx="55" cy="25" r="18" fill="#94a3b8" stroke="#2d3748" stroke-width="2.5"/>
-        <polygon points="45,12 40,0 52,8" fill="#94a3b8" stroke="#2d3748" stroke-width="2"/>
-        <!-- 肉爪抓牆 -->
-        <circle cx="70" cy="35" r="5" fill="#ffffff" stroke="#2d3748" stroke-width="2"/>
-        <circle cx="68" cy="55" r="5" fill="#ffffff" stroke="#2d3748" stroke-width="2"/>
-      </svg>
-
-      <!-- 右下抱鑰匙白貓 SVG -->
-      <svg class="cat-decor cat-right" viewBox="0 0 100 100" fill="none">
-        <!-- 身體 -->
-        <ellipse cx="50" cy="65" rx="25" ry="22" fill="#ffffff" stroke="#2d3748" stroke-width="2.5"/>
-        <!-- 貓頭 -->
-        <circle cx="50" cy="35" r="22" fill="#ffffff" stroke="#2d3748" stroke-width="2.5"/>
-        <!-- 耳朵 -->
-        <polygon points="32,22 22,5 40,15" fill="#ffffff" stroke="#2d3748" stroke-width="2"/>
-        <polygon points="68,22 78,5 60,15" fill="#ffffff" stroke="#2d3748" stroke-width="2"/>
-        <!-- 臉 -->
-        <circle cx="42" cy="33" r="3" fill="#2d3748"/>
-        <circle cx="58" cy="33" r="3" fill="#2d3748"/>
-        <polygon points="50,38 47,36 53,36" fill="#f43f5e"/>
-        <path d="M 45,42 Q 50,45 55,42" stroke="#2d3748" stroke-width="1.8" fill="none"/>
-        <!-- 手抱著金鑰匙 -->
-        <path d="M 25,60 C 40,45 65,75 80,55" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/>
-        <circle cx="80" cy="55" r="7" fill="#none" stroke="#f59e0b" stroke-width="4"/>
-      </svg>
 
     </div>
 
@@ -557,7 +498,7 @@
     <input type="text" id="cfgPassword" value="1027">
 
     <label>密碼提示：</label>
-    <input type="text" id="cfgHint" value="提示：對方的生日 (1027)">
+    <input type="text" id="cfgHint" value="嘻嘻沒有">
 
     <label>相片連結 (URL)：</label>
     <input type="text" id="cfgPhoto" value="合照.jpg">
@@ -581,7 +522,7 @@
     // 預設資料
     let config = {
       password: "1027",
-      hint: "提示：對方的生日 (1027)",
+      hint: "嘻嘻沒有",
       name: "寶貝",
       photo: "合照.jpg",
       music: "bgm.mp3",
