@@ -18,8 +18,8 @@
       --primary: #ff6b81;
       --primary-hover: #ff4757;
       --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #b9e6fe 50%, #c4e2ea 100%);
-      --glass-bg: rgba(255, 255, 255, 0.65);
-      --glass-border: rgba(255, 255, 255, 0.85);
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.9);
       --text-color: #2c3e50;
     }
 
@@ -38,7 +38,7 @@
       align-items: center;
       overflow-x: hidden;
       position: relative;
-      padding: 20px 0;
+      padding: 30px 0;
     }
 
     /* 背景動態氣泡 */
@@ -86,80 +86,73 @@
       perspective: 1000px;
     }
 
-    /* 解密卡片區域 */
+    /* 解密卡片區域 (造型融入可愛貓耳) */
     .lock-card {
       background: var(--glass-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 2px solid var(--glass-border);
-      border-radius: 32px;
+      border: 3px solid var(--glass-border);
+      border-radius: 36px;
       padding: 40px 25px 30px;
       text-align: center;
       box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
       color: #2d3748;
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
+      margin-top: 20px;
     }
 
-    /* 可愛貓貓頭頂裝飾圖示 */
-    .cat-avatar-wrapper {
-      position: relative;
-      width: 95px;
-      height: 95px;
-      margin: 0 auto 15px;
+    /* 用 CSS 打造卡片上方頂部的可愛立體貓耳 */
+    .lock-card::before, .lock-card::after {
+      content: '';
+      position: absolute;
+      top: -22px;
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 3px solid #ffffff;
+      border-radius: 12px 12px 0 0;
+      z-index: -1;
     }
 
-    .cat-avatar {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.1));
-      animation: floatCat 3s ease-in-out infinite;
+    .lock-card::before {
+      left: 35px;
+      transform: rotate(-25deg);
     }
 
-    @keyframes floatCat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+    .lock-card::after {
+      right: 35px;
+      transform: rotate(25deg);
     }
 
-    /* 邊角可愛小裝飾 */
-    .corner-decor {
+    /* 顏文字與圖示頭標 */
+    .cat-head-icon {
+      font-size: 42px;
+      margin-bottom: 5px;
+      display: inline-block;
+      animation: floatKaomoji 3s ease-in-out infinite;
+    }
+
+    @keyframes floatKaomoji {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.05); }
+    }
+
+    /* 飄浮周圍的可愛元素：魚骨、腳印、顏文字 */
+    .float-decor {
       position: absolute;
       pointer-events: none;
       z-index: 12;
+      font-weight: bold;
+      user-select: none;
     }
 
-    .decor-cat-top-right {
-      top: -25px;
-      right: 15px;
-      width: 55px;
-    }
-
-    .decor-cat-left {
-      left: -20px;
-      bottom: 80px;
-      width: 60px;
-    }
-
-    .decor-cat-right {
-      right: -20px;
-      bottom: -10px;
-      width: 65px;
-    }
-
-    .decor-fish1 {
-      top: 35px;
-      left: 15px;
-      font-size: 24px;
-      transform: rotate(-20deg);
-    }
-
-    .decor-fish2 {
-      top: 75px;
-      left: 20px;
-      font-size: 20px;
-      transform: rotate(15deg);
-    }
+    .decor-fish1 { top: 25px; left: 18px; font-size: 22px; opacity: 0.8; transform: rotate(-15deg); }
+    .decor-fish2 { top: 75px; left: 15px; font-size: 20px; opacity: 0.8; transform: rotate(20deg); }
+    .decor-paw1 { top: 30px; right: 20px; font-size: 20px; color: #60a5fa; opacity: 0.6; }
+    .decor-paw2 { top: 70px; right: 25px; font-size: 18px; color: #3b82f6; opacity: 0.5; }
+    .decor-kao-left { bottom: 85px; left: -15px; font-size: 20px; background: #ffffff; padding: 4px 8px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); color: #1e40af; }
+    .decor-kao-right { bottom: -12px; right: -10px; font-size: 22px; background: #ffffff; padding: 4px 10px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); color: #1e40af; }
 
     .lock-card h2 {
       font-size: 20px;
@@ -167,10 +160,6 @@
       font-weight: 700;
       color: #1e3a8a;
       letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
     }
 
     .lock-card p.sub-title {
@@ -190,7 +179,7 @@
       padding: 14px 45px 14px 20px;
       border-radius: 50px;
       border: 2px solid #bfdbfe;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       color: #1e293b;
       font-size: 15px;
       outline: none;
@@ -261,7 +250,7 @@
     .hint-box {
       margin-top: 12px;
       padding: 10px;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       border: 1px dashed #93c5fd;
       border-radius: 12px;
       font-size: 13.5px;
@@ -339,7 +328,7 @@
       max-height: 260px;
       overflow-y: auto;
       padding-right: 5px;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.75);
       padding: 16px;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,0.8);
@@ -428,22 +417,19 @@
   <button class="admin-toggle" onclick="toggleAdmin()"><i class="fa-solid fa-gear"></i> 設定卡片內容</button>
 
   <div class="container">
-    <!-- 解密輸入區域 -->
+    <!-- 解密輸入區域 (貓貓顏文字與魚骨腳印風格) -->
     <div class="lock-card" id="lockCard">
       
-      <!-- 魚骨頭角落裝飾 -->
-      <div class="corner-decor decor-fish1">🐟</div>
-      <div class="corner-decor decor-fish2">🦴</div>
+      <!-- 可愛元素飾品 -->
+      <div class="float-decor decor-fish1">🐟</div>
+      <div class="float-decor decor-fish2">🦴</div>
+      <div class="float-decor decor-paw1"><i class="fa-solid fa-paw"></i></div>
+      <div class="float-decor decor-paw2"><i class="fa-solid fa-paw"></i></div>
+      <div class="float-decor decor-kao-left">(=^･ω･^=)</div>
+      <div class="float-decor decor-kao-right">(ฅ´ω`ฅ)</div>
 
-      <!-- 可愛日系貓貓圖示 (高畫質精緻風格) -->
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616430.png" class="corner-decor decor-cat-top-right" alt="Cat Top">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616554.png" class="corner-decor decor-cat-left" alt="Cat Left">
-      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="corner-decor decor-cat-right" alt="Cat Right">
-
-      <!-- 中間主要大貓咪圖示 -->
-      <div class="cat-avatar-wrapper">
-        <img src="https://cdn-icons-png.flaticon.com/512/616/616540.png" class="cat-avatar" alt="Cute Detective Cat">
-      </div>
+      <!-- 正中間主要貓咪顏文字圖標 -->
+      <div class="cat-head-icon">🐱🔒</div>
 
       <h2 id="displayTitle">最高機密：僅限唐偲萍閱覽 🔒</h2>
       <p class="sub-title" id="displaySub">🐾 這是一封加密卡片，請輸入密碼解密 🐾</p>
