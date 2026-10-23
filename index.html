@@ -223,7 +223,7 @@
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    /* 信件卡片主體 (背景已改為淺藍色 #C4E2EA) */
+    /* 信件卡片主體 (背景淺藍色 #C4E2EA) */
     .card-content {
       display: none;
       background: #C4E2EA;
@@ -357,6 +357,11 @@
     <li></li><li></li><li></li><li></li><li></li><li></li>
   </ul>
 
+  <!-- 隱藏的 HTML5 音訊標籤 (讀取音訊檔) -->
+  <audio id="bgmAudio" loop preload="auto">
+    <source id="bgmSource" src="bgm.mp3" type="audio/mpeg">
+  </audio>
+
   <button class="admin-toggle" onclick="toggleAdmin()"><i class="fa-solid fa-gear"></i> 設定卡片內容</button>
 
   <div class="container">
@@ -401,7 +406,7 @@
 22歲了真的好快好快，說了好多次好快還是會感慨時間怎麼過得這麼快，祝福妳新的一歲比去年更快樂更幸福更有錢！</div>
 
       <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
-        <i class="fa-solid fa-music"></i> <span id="musicText">播放生日快樂歌 🎵</span>
+        <i class="fa-solid fa-music"></i> <span id="musicText">播放背景音樂 🎵</span>
       </button>
     </div>
   </div>
@@ -422,6 +427,9 @@
     <label>相片連結 (URL)：</label>
     <input type="text" id="cfgPhoto" value="合照.jpg">
 
+    <label>音樂連結或檔名 (例: bgm.mp3 或 URL)：</label>
+    <input type="text" id="cfgMusic" value="bgm.mp3">
+
     <label>祝福內文：</label>
     <textarea id="cfgText" rows="5">首先 祝妳22大壽生日快樂！22大順
 
@@ -441,6 +449,7 @@
       hint: "提示：對方的生日 (1027)",
       name: "寶貝",
       photo: "合照.jpg",
+      music: "bgm.mp3",
       text: `首先 祝妳22大壽生日快樂！22大順\n\n越長越大我發現都有各自的人生軌跡在走 而友情最珍貴的地方在於 在各自忙碌的生活中 卻還是可以在見面的時候毫無隔閡地分享生活。\n\n依舊很開心的最單純的階段跟妳認識 也很幸運我們的故事仍然在續寫；這次的卡片可能看起來有點文縐縐的 但就是這一年經過了很多事我好像對人生有了新的解釋 開始感慨 不再只是片言祝福。\n\n22歲了真的好快好快，說了好多次好快還是會感慨時間怎麼過得這麼快，祝福妳新的一歲比去年更快樂更幸福更有錢！`
     };
 
@@ -459,10 +468,18 @@
       document.getElementById('cardPhoto').src = config.photo;
       document.getElementById('cardText').innerText = config.text;
 
+      const audioSource = document.getElementById('bgmSource');
+      const audioPlayer = document.getElementById('bgmAudio');
+      if (audioSource.src !== config.music) {
+        audioSource.src = config.music;
+        audioPlayer.load();
+      }
+
       document.getElementById('cfgPassword').value = config.password;
       document.getElementById('cfgHint').value = config.hint;
       document.getElementById('cfgName').value = config.name;
       document.getElementById('cfgPhoto').value = config.photo;
+      document.getElementById('cfgMusic').value = config.music;
       document.getElementById('cfgText').value = config.text;
     }
 
@@ -524,65 +541,24 @@
       fire(0.1, { spread: 120, startVelocity: 45 });
     }
 
-    // Web Audio API 生日音樂播放器
-    let audioCtx = null;
-    let isPlaying = false;
-    let timer = null;
-
-    const notes = [
-      { f: 261.63, d: 0.4 }, { f: 261.63, d: 0.4 }, { f: 293.66, d: 0.8 }, { f: 261.63, d: 0.8 }, { f: 349.23, d: 0.8 }, { f: 329.63, d: 1.2 },
-      { f: 261.63, d: 0.4 }, { f: 261.63, d: 0.4 }, { f: 293.66, d: 0.8 }, { f: 261.63, d: 0.8 }, { f: 392.00, d: 0.8 }, { f: 349.23, d: 1.2 },
-      { f: 261.63, d: 0.4 }, { f: 261.63, d: 0.4 }, { f: 523.25, d: 0.8 }, { f: 440.00, d: 0.8 }, { f: 349.23, d: 0.8 }, { f: 329.63, d: 0.8 }, { f: 293.66, d: 0.8 },
-      { f: 466.16, d: 0.4 }, { f: 466.16, d: 0.4 }, { f: 440.00, d: 0.8 }, { f: 349.23, d: 0.8 }, { f: 392.00, d: 0.8 }, { f: 349.23, d: 1.2 }
-    ];
-
+    // 音訊檔播放器控制邏輯
     function toggleMusic() {
+      const audio = document.getElementById('bgmAudio');
       const btn = document.getElementById('musicBtn');
       const txt = document.getElementById('musicText');
 
-      if (isPlaying) {
-        isPlaying = false;
-        btn.classList.remove('playing');
-        txt.innerText = '播放生日快樂歌 🎵';
-        if (timer) clearTimeout(timer);
+      if (audio.paused) {
+        audio.play().then(() => {
+          btn.classList.add('playing');
+          txt.innerText = '暫停音樂 ⏸️';
+        }).catch(err => {
+          alert('音樂播放失敗，請檢查音樂檔名/連結是否正確！');
+        });
       } else {
-        isPlaying = true;
-        btn.classList.add('playing');
-        txt.innerText = '暫停音樂 ⏸️';
-        playBirthdaySong(0);
+        audio.pause();
+        btn.classList.remove('playing');
+        txt.innerText = '播放背景音樂 🎵';
       }
-    }
-
-    function playNote(freq, duration) {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-
-      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    }
-
-    function playBirthdaySong(index) {
-      if (!isPlaying) return;
-      if (index >= notes.length) index = 0;
-
-      const note = notes[index];
-      playNote(note.f, note.d);
-
-      timer = setTimeout(() => {
-        playBirthdaySong(index + 1);
-      }, note.d * 600);
     }
 
     function toggleAdmin() {
@@ -598,6 +574,7 @@
       config.hint = document.getElementById('cfgHint').value;
       config.name = document.getElementById('cfgName').value;
       config.photo = document.getElementById('cfgPhoto').value;
+      config.music = document.getElementById('cfgMusic').value;
       config.text = document.getElementById('cfgText').value;
 
       updateUI();
