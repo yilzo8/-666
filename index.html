@@ -125,20 +125,20 @@
       transform: rotate(25deg);
     }
 
-    /* 顏文字與圖示頭標 */
+    /* 頭標圖示 */
     .cat-head-icon {
       font-size: 42px;
       margin-bottom: 5px;
       display: inline-block;
-      animation: floatKaomoji 3s ease-in-out infinite;
+      animation: floatIcon 3s ease-in-out infinite;
     }
 
-    @keyframes floatKaomoji {
+    @keyframes floatIcon {
       0%, 100% { transform: translateY(0) scale(1); }
       50% { transform: translateY(-6px) scale(1.05); }
     }
 
-    /* 飄浮周圍的可愛元素：魚骨、腳印、顏文字 */
+    /* 飄浮周圍的可愛元素：魚骨、腳印 */
     .float-decor {
       position: absolute;
       pointer-events: none;
@@ -151,8 +151,8 @@
     .decor-fish2 { top: 75px; left: 15px; font-size: 20px; opacity: 0.8; transform: rotate(20deg); }
     .decor-paw1 { top: 30px; right: 20px; font-size: 20px; color: #60a5fa; opacity: 0.6; }
     .decor-paw2 { top: 70px; right: 25px; font-size: 18px; color: #3b82f6; opacity: 0.5; }
-    .decor-kao-left { bottom: 85px; left: -15px; font-size: 20px; background: #ffffff; padding: 4px 8px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); color: #1e40af; }
-    .decor-kao-right { bottom: -12px; right: -10px; font-size: 22px; background: #ffffff; padding: 4px 10px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); color: #1e40af; }
+    .decor-paw3 { bottom: 85px; left: 15px; font-size: 22px; color: #93c5fd; opacity: 0.7; }
+    .decor-paw4 { bottom: 20px; right: 20px; font-size: 22px; color: #60a5fa; opacity: 0.7; }
 
     .lock-card h2 {
       font-size: 20px;
@@ -417,7 +417,7 @@
   <button class="admin-toggle" onclick="toggleAdmin()"><i class="fa-solid fa-gear"></i> 設定卡片內容</button>
 
   <div class="container">
-    <!-- 解密輸入區域 (貓貓顏文字與魚骨腳印風格) -->
+    <!-- 解密輸入區域 -->
     <div class="lock-card" id="lockCard">
       
       <!-- 可愛元素飾品 -->
@@ -425,11 +425,11 @@
       <div class="float-decor decor-fish2">🦴</div>
       <div class="float-decor decor-paw1"><i class="fa-solid fa-paw"></i></div>
       <div class="float-decor decor-paw2"><i class="fa-solid fa-paw"></i></div>
-      <div class="float-decor decor-kao-left">(=^･ω･^=)</div>
-      <div class="float-decor decor-kao-right">(ฅ´ω`ฅ)</div>
+      <div class="float-decor decor-paw3"><i class="fa-solid fa-paw"></i></div>
+      <div class="float-decor decor-paw4"><i class="fa-solid fa-paw"></i></div>
 
-      <!-- 正中間主要貓咪顏文字圖標 -->
-      <div class="cat-head-icon">🐱🔒</div>
+      <!-- 正中間主要圖示 -->
+      <div class="cat-head-icon">🔒</div>
 
       <h2 id="displayTitle">最高機密：僅限唐偲萍閱覽 🔒</h2>
       <p class="sub-title" id="displaySub">🐾 這是一封加密卡片，請輸入密碼解密 🐾</p>
