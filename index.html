@@ -160,7 +160,7 @@
       40%, 60% { transform: translate3d(4px, 0, 0); }
     }
 
-    /* 信件卡片主體 (支援 4 頁) */
+    /* 信件卡片主體 (4 頁結構) */
     .card-content {
       display: none; background: #C4E2EA; border-radius: 28px;
       padding: 28px 22px; color: var(--text-color);
@@ -218,53 +218,72 @@
       border: 1px solid rgba(255,255,255,0.8);
     }
 
-    /* Page 4 生日蛋糕與吹蠟燭特效樣式 */
-    .cake-container {
-      position: relative; width: 180px; height: 160px;
-      margin: 15px auto 20px; cursor: pointer; user-select: none;
+    /* Page 4 超可愛 Q 版雙層蛋糕樣式 */
+    .cute-cake-stage {
+      position: relative;
+      width: 200px;
+      height: 180px;
+      margin: 10px auto 20px;
+      cursor: pointer;
+      user-select: none;
     }
-    .cake-base {
-      position: absolute; bottom: 0; width: 100%; height: 75px;
-      background: #fbcfe8; border-radius: 16px 16px 10px 10px;
-      border: 3px solid #ffffff; box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    .cake-plate {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 190px; height: 16px; background: #ffffff; border-radius: 50px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1); border: 2px solid #bfdbfe;
     }
-    .cake-cream {
-      position: absolute; top: 60px; width: 100%; height: 30px;
-      background: #ffffff; border-radius: 15px; box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    .cake-tier-bottom {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      width: 150px; height: 60px; background: #fbcfe8; border-radius: 16px;
+      border: 3px solid #ffffff; box-shadow: inset 0 -8px 0 rgba(0,0,0,0.05);
     }
-    .cake-topping {
-      position: absolute; top: 45px; left: 10px; width: 160px; height: 25px;
-      background: #f472b6; border-radius: 12px; border: 2px solid #ffffff;
+    .cake-drip-bottom {
+      position: absolute; top: 0; left: 0; width: 100%; height: 22px;
+      background: #ffffff; border-radius: 14px 14px 10px 10px;
     }
-    /* 蠟燭與火焰 */
-    .candle {
-      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-      width: 18px; height: 40px; background: #60a5fa; border-radius: 4px;
-      border: 2px solid #ffffff;
+    .cake-tier-top {
+      position: absolute; bottom: 68px; left: 50%; transform: translateX(-50%);
+      width: 105px; height: 50px; background: #f472b6; border-radius: 14px;
+      border: 3px solid #ffffff;
     }
-    .candle-number {
-      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-      font-weight: bold; font-size: 13px; color: #1e3a8a;
+    .cake-drip-top {
+      position: absolute; top: 0; left: 0; width: 100%; height: 18px;
+      background: #ffffff; border-radius: 12px 12px 8px 8px;
     }
-    .candle-flame {
+    /* 草莓裝飾 */
+    .strawberry {
+      position: absolute; font-size: 18px; z-index: 5;
+    }
+    .sb1 { top: 48px; left: 50px; }
+    .sb2 { top: 48px; right: 50px; }
+
+    /* 22 數字蠟燭與火焰 */
+    .cute-candle {
+      position: absolute; bottom: 115px; left: 50%; transform: translateX(-50%);
+      width: 22px; height: 35px; background: #60a5fa; border-radius: 6px;
+      border: 2px solid #ffffff; text-align: center;
+    }
+    .cute-candle-num {
+      font-size: 12px; font-weight: bold; color: #ffffff; margin-top: 6px;
+    }
+    .cute-flame {
       position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
-      width: 14px; height: 22px; background: #f97316; border-radius: 50% 50% 35% 35%;
+      width: 15px; height: 22px; background: #f97316; border-radius: 50% 50% 35% 35%;
       box-shadow: 0 0 12px #f97316, 0 0 20px #facc15;
       animation: flicker 0.6s infinite alternate; transition: all 0.4s;
     }
-    .candle-flame::after {
-      content: ''; position: absolute; top: 5px; left: 3px;
+    .cute-flame::after {
+      content: ''; position: absolute; top: 5px; left: 3.5px;
       width: 8px; height: 12px; background: #facc15; border-radius: 50%;
     }
-    /* 蠟燭熄滅煙霧 */
-    .candle-flame.blown-out {
+    .cute-flame.blown-out {
       opacity: 0; transform: translateX(-50%) scale(0);
     }
-    .smoke {
+    .smoke-anim {
       position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
-      font-size: 18px; opacity: 0; transition: all 0.8s; pointer-events: none;
+      font-size: 20px; opacity: 0; transition: all 0.8s; pointer-events: none;
     }
-    .smoke.show-smoke { opacity: 0.8; transform: translate(-50%, -20px) scale(1.4); }
+    .smoke-anim.show-smoke { opacity: 0.85; transform: translate(-50%, -20px) scale(1.4); }
 
     .blow-btn {
       width: 100%; padding: 12px; border: none; border-radius: 50px;
@@ -328,6 +347,7 @@
   <div class="falling-container" id="fallingContainer"></div>
   <div class="paw-stamp" id="pawStamp"><i class="fa-solid fa-paw"></i></div>
 
+  <!-- 音訊標籤 -->
   <audio id="bgmAudio" loop preload="auto">
     <source id="bgmSource" src="bgm.mp3" type="audio/mpeg">
   </audio>
@@ -363,11 +383,11 @@
     <!-- 解密後的卡片內容 (4 頁結構) -->
     <div class="card-content" id="cardContent">
       
-      <!-- Page 1：精彩相簿 1/2 -->
+      <!-- Page 1：精彩相簿 1/2 + 背景音樂按鈕 -->
       <div class="card-page active" id="page1">
         <div class="card-header">
           <h1>Memories 📸</h1>
-          <p style="color: #1e40af; font-size: 14.5px; font-weight: bold;">這是我們 (Page 1/4)</p>
+          <p style="color: #1e40af; font-size: 14.5px; font-weight: bold;">精彩回憶輯 (Page 1/4)</p>
         </div>
 
         <div class="polaroid-frame">
@@ -381,13 +401,18 @@
             <img src="照片2.jpg" alt="Memory Photo 2">
           </div>
         </div>
+
+        <!-- 背景音樂按鈕 (位於 Page 1) -->
+        <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+          <i class="fa-solid fa-music"></i> <span id="musicText">播放背景音樂 🎵</span>
+        </button>
       </div>
 
       <!-- Page 2：精彩相簿 2/2 -->
       <div class="card-page" id="page2">
         <div class="card-header">
           <h1>Sweet Moments 💖</h1>
-          <p style="color: #1e40af; font-size: 14.5px; font-weight: bold;">可愛吧 (Page 2/4)</p>
+          <p style="color: #1e40af; font-size: 14.5px; font-weight: bold;">美好時光 (Page 2/4)</p>
         </div>
 
         <div class="polaroid-frame">
@@ -423,22 +448,28 @@
 22歲了真的好快好快，說了好多次好快還是會感慨時間怎麼過得這麼快，祝福妳新的一歲比去年更快樂更幸福更有錢！</div>
       </div>
 
-      <!-- Page 4：吹蠟燭許願頁 -->
+      <!-- Page 4：Q 版雙層蛋糕與吹蠟燭許願頁 -->
       <div class="card-page" id="page4">
         <div class="card-header">
           <h1>Make a Wish 🎂</h1>
-          <p style="color: #1e40af; font-size: 15px; font-weight: bold;">吹熄 22 歲蠟燭許願！ (Page 4/4)</p>
+          <p style="color: #1e40af; font-size: 15px; font-weight: bold;">吹熄 22 歲蠟燭許願囉！ (Page 4/4)</p>
         </div>
 
-        <!-- 可點擊/吹熄的生日蛋糕 -->
-        <div class="cake-container" onclick="blowOutCandle()">
-          <div class="cake-base"></div>
-          <div class="cake-cream"></div>
-          <div class="cake-topping"></div>
-          <div class="candle">
-            <div class="candle-number">22</div>
-            <div class="candle-flame" id="candleFlame"></div>
-            <div class="smoke" id="smokeText">💨</div>
+        <!-- 可點擊/吹熄的 Q 版雙層奶油草莓蛋糕 -->
+        <div class="cute-cake-stage" onclick="blowOutCandle()">
+          <div class="cake-plate"></div>
+          <div class="cake-tier-bottom">
+            <div class="cake-drip-bottom"></div>
+          </div>
+          <div class="strawberry sb1">🍓</div>
+          <div class="strawberry sb2">🍓</div>
+          <div class="cake-tier-top">
+            <div class="cake-drip-top"></div>
+          </div>
+          <div class="cute-candle">
+            <div class="cute-candle-num">22</div>
+            <div class="cute-flame" id="candleFlame"></div>
+            <div class="smoke-anim" id="smokeText">💨</div>
           </div>
         </div>
 
@@ -448,13 +479,8 @@
         </button>
 
         <div class="letter-body" id="wishResultText" style="text-align: center; font-weight: bold; color: #1e3a8a;">
-          💡 點擊上方蠟燭或使用麥克風吹一口氣，將火焰吹熄吧！
+          💡 點擊上方蛋糕或使用麥克風吹一口氣，將火焰吹熄吧！
         </div>
-
-        <!-- 背景音樂按鈕 -->
-        <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
-          <i class="fa-solid fa-music"></i> <span id="musicText">播放背景音樂 🎵</span>
-        </button>
 
         <!-- 彩蛋按鈕 -->
         <div class="easter-egg-wrapper">
@@ -626,16 +652,16 @@
             }
             const average = values / array.length;
 
-            if (average > 45) { // 偵測到吹氣風聲
+            if (average > 45) {
               blowOutCandle();
-              stream.getTracks().forEach(track => track.stop()); // 關閉麥克風
+              stream.getTracks().forEach(track => track.stop());
               javascriptNode.onaudioprocess = null;
               document.getElementById('blowBtn').style.display = "none";
             }
           };
         })
         .catch(err => {
-          alert('無法開啟麥克風，可以直接點擊蠟燭來吹熄喔！');
+          alert('無法開啟麥克風，可以直接點擊蛋糕來吹熄蠟燭喔！');
         });
     }
 
